@@ -1,19 +1,17 @@
-import amqp, { connect, Connection } from "amqplib";
+import amqp, { connect, Connection, Channel } from "amqplib";
 
-class NatsWrapper {
-  private _client?: Connection;
+class RabbitWrapper {
+  private connection?: Connection;
+  private channel?: Channel;
 
   get client() {
-    if (!this._client) {
-      throw new Error("Cannot access NATS client before connecting");
-    }
-
-    return this._client;
+    return this.channel;
   }
 
-  async start() {
-    this._client = await connect("amqp://localhost");
+  async connect(url: string) {
+    this.connection = await connect(url);
+    this.channel = await this.connection.createChannel();
   }
 }
 
-export const natsWrapper = new NatsWrapper();
+export const rabbitWrapper = new RabbitWrapper();

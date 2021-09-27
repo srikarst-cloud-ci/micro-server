@@ -1,10 +1,10 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import { Organization } from "../models/organization";
-import { validateRequest } from "@srikar-test/common";
-import { requireAuth } from "@srikar-test/common";
+import { OrgStatus, requireAuth, validateRequest } from "@srikar-test/common";
 import { OrgCreatedPublisher } from "../events/publishers/org-created-publisher";
 import { MessageBroker } from "../rabbit";
+import { rabbitWrapper } from "../rabbit-wrapper";
 
 const router = express.Router();
 
@@ -31,9 +31,16 @@ router.post(
     // await instance.send("test", Buffer.from(JSON.stringify(req.body)));
 
     // Publish an event saying that an order was created
-    new OrgCreatedPublisher(natsWrapper.client).publish({
-      id: organization.id,
-    });
+    try {
+      await new OrgCreatedPublisher(rabbitWrapper.client!).publish({
+        id: organization.id,
+        version: 1,
+        status: OrgStatus.Created,
+        userId: _id,
+      });
+    } catch (e) {
+      console.log(e);
+    }
     res.status(201).send("New organization created");
   }
 );

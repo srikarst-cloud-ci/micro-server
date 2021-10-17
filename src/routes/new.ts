@@ -3,7 +3,6 @@ import { body } from "express-validator";
 import { Organization } from "../models/organization";
 import { OrgStatus, requireAuth, validateRequest } from "@srikar-test/common";
 import { OrgCreatedPublisher } from "../events/publishers/org-created-publisher";
-import { MessageBroker } from "../rabbit";
 import { rabbitWrapper } from "../rabbit-wrapper";
 
 const router = express.Router();
@@ -25,19 +24,8 @@ router.post(
     const organization = Organization.build({ cloudCredentials, _id });
     await organization.save();
 
-    // const broker = new MessageBroker();
-    // const instance = await broker.getInstance();
-    // console.log(JSON.stringify(req.body));
-    // await instance.send("test", Buffer.from(JSON.stringify(req.body)));
-
-    // Publish an event saying that an order was created
     try {
-      await new OrgCreatedPublisher(rabbitWrapper.client!).publish({
-        id: organization.id,
-        version: 1,
-        status: OrgStatus.Created,
-        userId: _id,
-      });
+      await new OrgCreatedPublisher(rabbitWrapper.client!).publish({ cloudCredentials, _id });
     } catch (e) {
       console.log(e);
     }

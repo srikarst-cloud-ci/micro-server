@@ -4,6 +4,11 @@ import "express-async-errors";
 import { json } from "body-parser";
 
 import { newOrganizationRouter } from "./routes/new";
+import { callbackSampleRouter } from "./routes/callback-samples";
+import { promiseSampleRouter } from "./routes/promise-samples";
+import { asKeywordRuoter } from "./routes/as-keyword";
+import { newAppRouter } from "./routes/apps";
+import { indexAppRouter } from "./routes/apps";
 import { errorHandler } from "@srikar-test/common";
 import { currentUser } from "@srikar-test/common";
 import { NotFoundError } from "@srikar-test/common";
@@ -19,6 +24,11 @@ app.use(
   })
 );
 app.use(currentUser);
+app.use(callbackSampleRouter);
+app.use(promiseSampleRouter);
+app.use(asKeywordRuoter);
+app.use(indexAppRouter);
+app.use(newAppRouter);
 
 app.use(newOrganizationRouter);
 

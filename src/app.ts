@@ -9,9 +9,9 @@ import { promiseSampleRouter } from "./routes/promise-samples";
 import { asKeywordRuoter } from "./routes/as-keyword";
 import { newAppRouter } from "./routes/apps";
 import { indexAppRouter } from "./routes/apps";
-import { errorHandler } from "@srikar-test/common";
-import { currentUser } from "@srikar-test/common";
-import { NotFoundError } from "@srikar-test/common";
+import { errorHandler } from "@srikar-test/micro-common";
+import { currentUser } from "@srikar-test/micro-common";
+import { NotFoundError } from "@srikar-test/micro-common";
 
 const app = express();
 app.set("trust proxy", true);

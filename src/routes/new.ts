@@ -1,7 +1,11 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 import { Organization } from "../models/organization";
-import { OrgStatus, requireAuth, validateRequest } from "@srikar-test/common";
+import {
+  OrgStatus,
+  requireAuth,
+  validateRequest,
+} from "@srikar-test/micro-common";
 import { OrgCreatedPublisher } from "../events/publishers/org-created-publisher";
 import { rabbitWrapper } from "../rabbit-wrapper";
 
@@ -25,7 +29,10 @@ router.post(
     await organization.save();
 
     try {
-      await new OrgCreatedPublisher(rabbitWrapper.client!).publish({ cloudCredentials, _id });
+      await new OrgCreatedPublisher(rabbitWrapper.client!).publish({
+        cloudCredentials,
+        _id,
+      });
     } catch (e) {
       console.log(e);
     }

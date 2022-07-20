@@ -9,7 +9,7 @@ const start = async () => {
     await rabbitWrapper.connect("amqp://localhost");
     console.log("Connected to RabbitMq");
     await mongoose.connect(
-      "mongodb+srv://srikarst:srikar10@cluster0.gopsx.mongodb.net/cxserverdb?retryWrites=true&w=majority",
+      "mongodb+srv://srikarst:srikar10@cluster0.gopsx.mongodb.net/micro-serverdb?retryWrites=true&w=majority",
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,

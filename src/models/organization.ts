@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { OrgStatus } from "@srikar-test/micro-common";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 interface OrganizationAttrs {
@@ -7,6 +8,7 @@ interface OrganizationAttrs {
     accessKey: string;
     secretKey: string;
   };
+  status: OrgStatus;
 }
 
 interface OrganizationDoc extends mongoose.Document {
@@ -15,6 +17,7 @@ interface OrganizationDoc extends mongoose.Document {
     accessKey: string;
     secretKey: string;
   };
+  status: OrgStatus;
 }
 
 interface OrganizationModel extends mongoose.Model<OrganizationDoc> {
@@ -36,6 +39,12 @@ const organizationSchema = new mongoose.Schema(
         type: String,
         required: true,
       },
+    },
+    status: {
+      type: String,
+      required: true,
+      enum: Object.values(OrgStatus),
+      default: OrgStatus.Created,
     },
   },
   {

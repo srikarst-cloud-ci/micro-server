@@ -3,7 +3,7 @@ import cookieSession from "cookie-session";
 import "express-async-errors";
 import { json } from "body-parser";
 
-import { newOrganizationRouter } from "./routes/new";
+import { newOrganizationRouter } from "./routes/organizations/new";
 import { callbackSampleRouter } from "./routes/callback-samples";
 import { promiseSampleRouter } from "./routes/promise-samples";
 import { asKeywordRuoter } from "./routes/as-keyword";
